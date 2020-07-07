@@ -1,0 +1,9 @@
+.*
+!/.gitignore
+test/*
+.Rproj.user
+test*
+results/*
+data_testing/*
+data/
+slurm_logs/*

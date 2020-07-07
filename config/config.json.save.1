@@ -1,0 +1,58 @@
+{
+  "trimmomatic" : {
+    "trimmomatic_version" : "0.36",
+    "trimmomatic_threads" : 48,
+    "trimmomatic_hours": 4,
+    "trimmomatic_mem_mb": 32000
+  },
+  "fastqc" : {
+    "fastqc_version" : "0.11.7",
+    "fastqc_hours": 4,
+    "fastqc_mem_mb": 32000,
+    "fastqc_threads": 48
+  },
+  "bowtie2" : {
+    "bowtie2_version": "2.3.4.1",
+    "bowtie2_ref" : {
+      "bowtie2_hours" : 1,
+      "bowtie2_mem_mb": 8000,
+      "bowtie2_threads": 8
+      },
+    "bowtie2_map" : {
+      "bowtie2_hours" : 10,
+      "bowtie2_mem_mb": 32000,
+      "bowtie2_threads": 48
+      }
+  },
+  "samtools" : {
+    "samtools_version": "1.10",
+    "samtools_hours": 4,
+    "samtools_mem_mb": 64000,
+    "samtools_threads": 48
+  },
+  "spades" : {
+    "spades_version": "3.14.0",
+    "spades_hours": 3500,
+    "spades_mem_mb":1800000,
+    "spades_mem_gb":1800,
+    "spades_threads": 80
+  },
+  "short_sh_commands_threads": 16,
+  "short_sh_commands_hours": 1,
+  "testing" : {
+    "testing_threads": 8,
+    "testing_hours": 1,
+    "testing_mem_mb": 16000
+  },
+  "DataFolder" : "/scratch/mkreuzer/",
+  "DataFolder_testing": "data_testing/",
+  "extension" : "fastq.gz",
+  "Lanes" : "2",
+  "mates" : {
+    "mate1" : "R1",
+    "mate2" : "R2"
+    },
+  "defaultIlluminaExt": "001",
+  "host_reference": "analysis/02_filter_host/reference/reference_list.txt",
+  "eof": "true"
+}
