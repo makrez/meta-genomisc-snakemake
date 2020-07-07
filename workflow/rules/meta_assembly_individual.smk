@@ -1,10 +1,10 @@
 rule meta_assembly:
   input:
-    FORWARD_POOLED="analysis/03_pool_reads/{sample}/pooled_reads_{sample}_FP.fastq.gz",
-    REVERSE_POOLED="analysis/03_pool_reads/{sample}/pooled_reads_{sample}_RP.fastq.gz"
+    FORWARD_POOLED="results/02_filter_host/{sample}/{sample}_FP.fastq.gz",
+    REVERSE_POOLED="results/02_filter_host/{sample}/{sample}_RP.fastq.gz"
 
   output:
-    "analysis/04_meta-assembly/{sample}/scaffolds.fasta"
+    "results/04_meta-assembly/{sample}/scaffolds.fasta"
 
   params:
     spades=config["spades"]["spades_version"]
@@ -26,4 +26,4 @@ rule meta_assembly:
     "  -m {resources.mem_gb} "
     "  -1 {input.FORWARD_POOLED} "
     "  -2 {input.REVERSE_POOLED} "
-    "  -o analysis/04_meta-assembly/{wildcards.sample}/ ;"
+    "  -o results/04_meta-assembly/{wildcards.sample}/ ;"

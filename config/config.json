@@ -1,4 +1,14 @@
 {
+  "DataFolder" : "data_testing/",
+  "DataFolder_testing": "data_testing/",
+  "extension" : ".fastq.gz",
+  "complete_extension": "_.\\.fastq\\.gz",
+  "mates" : {
+    "mate1" : "_1",
+    "mate2" : "_2"
+    },
+  "host_reference": "resources/reference_list.txt",
+  "individual_assembly" : true,
   "trimmomatic" : {
     "trimmomatic_version" : "0.36",
     "trimmomatic_threads" : 48,
@@ -32,10 +42,10 @@
   },
   "spades" : {
     "spades_version": "3.14.0",
-    "spades_hours": 2640,
-    "spades_mem_mb":1700000,
-    "spades_mem_gb":1700,
-    "spades_threads": 78
+    "spades_hours": 4,
+    "spades_mem_mb": 40000,
+    "spades_mem_gb":40,
+    "spades_threads": 24
   },
   "short_sh_commands_threads": 16,
   "short_sh_commands_hours": 1,
@@ -44,15 +54,5 @@
     "testing_hours": 1,
     "testing_mem_mb": 16000
   },
-  "DataFolder" : "/scratch/mkreuzer/SG_bx_1_L1/",
-  "DataFolder_testing": "data_testing/",
-  "extension" : "fastq.gz",
-  "Lanes" : "1",
-  "mates" : {
-    "mate1" : "R1",
-    "mate2" : "R2"
-    },
-  "defaultIlluminaExt": "001",
-  "host_reference": "analysis/02_filter_host/reference/reference_list.txt",
   "eof": "true"
 }

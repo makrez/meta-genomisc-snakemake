@@ -1,15 +1,13 @@
 rule trim:
   input:
-    R1 = f"{DataFolder}" + "{sample}/{sample}_{lane}_"+f"{mates[1]}_" +
-          f"{illumina_ext}" + f".{fastx_extension}",
-    R2 = f"{DataFolder}" + "{sample}/{sample}_{lane}_"+f"{mates[0]}_" +
-          f"{illumina_ext}" + f".{fastx_extension}"
+    R1 = f"{DataFolder}" + "{sample}" + config['mates']['mate1'] + f"{fastx_extension}",
+    R2 = f"{DataFolder}" + "{sample}" + config['mates']['mate2'] + f"{fastx_extension}"
 
   output:
-    FP = "analysis/01_QC/{sample}/{sample}_{lane}_FP.fastq.gz",
-    RP = "analysis/01_QC/{sample}/{sample}_{lane}_RP.fastq.gz",
-    FU = "analysis/01_QC/{sample}/{sample}_{lane}_FU.fastq.gz",
-    RU = "analysis/01_QC/{sample}/{sample}_{lane}_RU.fastq.gz"
+    FP = "results/01_QC/{sample}/{sample}_FP.fastq.gz",
+    RP = "results/01_QC/{sample}/{sample}_RP.fastq.gz",
+    FU = "results/01_QC/{sample}/{sample}_FU.fastq.gz",
+    RU = "results/01_QC/{sample}/{sample}_RU.fastq.gz"
 
   params:
     trimmomatic=config['trimmomatic']['trimmomatic_version']
@@ -35,13 +33,13 @@ rule trim:
 
 rule fastqc_run:
   input:
-    R1="analysis/01_QC/{sample}/{sample}_{lane}_FP.fastq.gz",
-    R2="analysis/01_QC/{sample}/{sample}_{lane}_RP.fastq.gz"
+    R1="results/01_QC/{sample}/{sample}_FP.fastq.gz",
+    R2="results/01_QC/{sample}/{sample}_RP.fastq.gz"
 
   output:
-    zip1 = "analysis/01_QC/result_fastqc/{sample}_{lane}_FP_fastqc.zip",
-    zip2 = "analysis/01_QC/result_fastqc/{sample}_{lane}_RP_fastqc.zip",
-    link_rule = "analysis/01_QC/result_fastqc/{sample}_{lane}_RP_fastqc.txt"
+    zip1 = "results/01_QC/result_fastqc/{sample}_FP_fastqc.zip",
+    zip2 = "results/01_QC/result_fastqc/{sample}_RP_fastqc.zip",
+    link_rule = "results/01_QC/result_fastqc/{sample}_RP_fastqc.txt"
 
   params:
     fastqc=config['fastqc']['fastqc_version']
@@ -56,18 +54,17 @@ rule fastqc_run:
   shell:
     " module add UHTS/Quality_control/fastqc/{params.fastqc}; "
     "srun fastqc {input.R1} -t {threads} "
-    "  -o analysis/01_QC/result_fastqc/; "
+    "  -o results/01_QC/result_fastqc/; "
     "srun fastqc {input.R2} -t {threads} "
-    " -o analysis/01_QC/result_fastqc/; "
+    " -o results/01_QC/result_fastqc/; "
     "srun /bin/echo FINISHED {wildcards.sample} > {output.link_rule}; "
 
 #-------------------------------------------------------------------------------
 
 rule create_link_file:
   input:
-    expand("analysis/01_QC/result_fastqc/{sample}_{lane}_RP_fastqc.txt",
-            sample = samples,
-            lane = lanes)
+    expand("results/01_QC/result_fastqc/{sample}_RP_fastqc.txt",
+            sample = samples)
 
   params:
     trimmomatic=config['trimmomatic']['trimmomatic_version']
@@ -80,7 +77,7 @@ rule create_link_file:
     hours = int(config['short_sh_commands_hours'])
 
   output:
-    "analysis/01_QC/link_rule.txt"
+    "results/01_QC/link_rule.txt"
 
   shell:
     "srun /bin/cat {input} > {output}"

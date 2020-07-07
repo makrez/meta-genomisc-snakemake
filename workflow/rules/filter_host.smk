@@ -1,11 +1,11 @@
 rule create_reference:
   input:
     reference = config["host_reference"],
-    link = "analysis/01_QC/link_rule.txt"
+    link = "results/01_QC/link_rule.txt"
 
   output:
-    indexed_reference = "analysis/02_filter_host/reference/ref.1.bt2",
-    log_ref = "analysis/02_filter_host/reference/log_ref.txt"
+    indexed_reference = "results/02_filter_host/reference/ref.1.bt2",
+    log_ref = "results/02_filter_host/reference/log_ref.txt"
 
   params:
     bowtie2=config['bowtie2']['bowtie2_version']
@@ -20,19 +20,19 @@ rule create_reference:
   shell:
     " module add UHTS/Aligner/bowtie2/{params.bowtie2} ;"
     " srun bowtie2-build --threads {threads} "
-    "  -c {input.reference} analysis/02_filter_host/reference/ref ;"
+    "  -c {input.reference} results/02_filter_host/reference/ref ;"
     " srun /bin/touch {output.log_ref}; "
 
 #-------------------------------------------------------------------------------
 
 rule run_bowtie2:
   input:
-    R1= "analysis/01_QC/{sample}/{sample}_{lane}_FP.fastq.gz",
-    R2= "analysis/01_QC/{sample}/{sample}_{lane}_RP.fastq.gz",
-    ref = "analysis/02_filter_host/reference/log_ref.txt"
+    R1= "results/01_QC/{sample}/{sample}_FP.fastq.gz",
+    R2= "results/01_QC/{sample}/{sample}_RP.fastq.gz",
+    ref = "results/02_filter_host/reference/log_ref.txt"
 
   output:
-    temp("analysis/02_filter_host/{sample}/{sample}_{lane}.sam")
+    temp("results/02_filter_host/{sample}/{sample}.sam")
 
   params:
     bowtie2=config['bowtie2']['bowtie2_version']
@@ -46,7 +46,7 @@ rule run_bowtie2:
 
   shell:
     " module add UHTS/Aligner/bowtie2/{params.bowtie2} ;"
-    " srun bowtie2 -x analysis/02_filter_host/reference/ref "
+    " srun bowtie2 -x results/02_filter_host/reference/ref "
     "  -1 {input.R1} "
     "  -2 {input.R2} "
     "  -p {threads} "
@@ -56,10 +56,10 @@ rule run_bowtie2:
 
 rule sam_to_bam:
   input:
-    "analysis/02_filter_host/{sample}/{sample}_{lane}.sam"
+    "results/02_filter_host/{sample}/{sample}.sam"
 
   output:
-    temp("analysis/02_filter_host/{sample}/{sample}_{lane}.bam")
+    temp("results/02_filter_host/{sample}/{sample}.bam")
 
   params:
     samtools=config["samtools"]["samtools_version"]
@@ -80,10 +80,10 @@ rule sam_to_bam:
 
 rule sort_bam:
   input:
-    "analysis/02_filter_host/{sample}/{sample}_{lane}.bam"
+    "results/02_filter_host/{sample}/{sample}.bam"
 
   output:
-    "analysis/02_filter_host/{sample}/{sample}_{lane}.sorted.bam"
+    "results/02_filter_host/{sample}/{sample}.sorted.bam"
 
   params:
     samtools=config["samtools"]["samtools_version"]
@@ -104,11 +104,11 @@ rule sort_bam:
 
 rule unmapped_bam_to_fastq:
   input:
-    "analysis/02_filter_host/{sample}/{sample}_{lane}.sorted.bam"
+    "results/02_filter_host/{sample}/{sample}.sorted.bam"
 
   output:
-    FORWARD="analysis/02_filter_host/{sample}/{sample}_{lane}_FP.fastq.gz",
-    REVERSE="analysis/02_filter_host/{sample}/{sample}_{lane}_RP.fastq.gz"
+    FORWARD="results/02_filter_host/{sample}/{sample}_FP.fastq.gz",
+    REVERSE="results/02_filter_host/{sample}/{sample}_RP.fastq.gz"
 
   params:
     samtools=config["samtools"]["samtools_version"]
