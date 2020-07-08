@@ -1,13 +1,13 @@
 rule meta_assembly:
   input:
-    FORWARD_POOLED="analysis/03_pool_reads/pooled_reads_FP.fastq.gz",
-    REVERSE_POOLED="analysis/03_pool_reads/pooled_reads_RP.fastq.gz"
+    FORWARD="results/03_pool_reads/pooled_reads_FP.fastq.gz",
+    REVERSE="results/03_pool_reads/pooled_reads_RP.fastq.gz"
 
   output:
-    "analysis/04_meta-assembly/scaffolds.fasta"
+    "results/04_meta-assembly/pooled_assembly_finished.txt"
 
   params:
-    spades=config["spades"]["spades_version"]
+    conda_profile = "/mnt/apps/centos7/Conda/miniconda3/etc/profile.d/conda.sh",
 
   threads:
     int(config['spades']['spades_threads'])
@@ -17,15 +17,30 @@ rule meta_assembly:
     hours = int(config['spades']['spades_hours']),
     mem_gb = int(config['spades']['spades_mem_gb'])
 
-  shell:
-    " module add vital-it/7 ;"
-    " module add UHTS/Assembler/SPAdes/{params.spades} ;"
-    " srun spades.py --continue "
-    " -o analysis/04_meta-assembly/ ;"
-    " #srun spades.py "
-    "  #--meta " # Metagenomics flag
-    "  #-t {threads} "
-    "  #-m {resources.mem_gb} "
-    "  #-1 {input.FORWARD_POOLED} "
-    "  #-2 {input.REVERSE_POOLED} "
-    "  #-o analysis/04_meta-assembly/ ;"
+  run:
+    if (config["assembler"] == "spades"):
+      shell(
+        " set +u ;"
+        " source {params.conda_profile} ;"
+        " conda activate spades ;"
+        " srun spades.py "
+        "  --meta "
+        "  -t {threads} "
+        "  -m {resources.mem_gb} "
+        "  -1 {input.FORWARD} "
+        "  -2 {input.REVERSE} "
+        "  -o results/04_meta-assembly/spades ;"
+        "srun /bin/touch {output} ;"
+       )
+    elif (config["assembler"] == "megahit"):
+        shell(
+          "module add UHTS/Assembler/megahit/1.1.4 ;"
+          "srun megahit "
+          " -1 {input.FORWARD} "
+          " -2 {input.REVERSE} "
+          " -o results/04_meta-assembly/megahit ;"
+          " /bin/touch {output} ; "
+         )
+    else:
+        print("Assembler not recognized. \
+              Use either the strings 'spades' or 'megahit' in the config file")

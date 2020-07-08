@@ -7,8 +7,12 @@
     "mate1" : "_1",
     "mate2" : "_2"
     },
-  "host_reference": "resources/reference_list.txt",
-  "individual_assembly" : true,
+  "remove_host" : {
+    "remove_host": false,
+    "host_reference": "resources/reference_list.txt"
+  },
+  "pool_reads_before_assembly": true,
+  "assembler": "spades",
   "trimmomatic" : {
     "trimmomatic_version" : "0.36",
     "trimmomatic_threads" : 48,
@@ -41,7 +45,6 @@
     "samtools_threads": 48
   },
   "spades" : {
-    "spades_version": "3.14.0",
     "spades_hours": 4,
     "spades_mem_mb": 40000,
     "spades_mem_gb":40,

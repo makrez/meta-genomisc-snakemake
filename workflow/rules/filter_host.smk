@@ -1,6 +1,6 @@
 rule create_reference:
   input:
-    reference = config["host_reference"],
+    reference = config["remove_host"]["host_reference"],
     link = "results/01_QC/link_rule.txt"
 
   output:
