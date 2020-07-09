@@ -20,7 +20,7 @@ rule create_reference:
     " module add UHTS/Aligner/bowtie2/{params.bowtie2} ;"
     " srun bowtie2-build --threads {threads} "
     "  -c results/04_meta-assembly/spades/{wildcards.sample}/contigs.fasta "
-    "  results/02_filter_host/reference/ref ;"
+    "  results/04_meta-assembly/spades/{sample}/ref ;"
     " srun /bin/touch {output.log_ref}; "
 
 #-------------------------------------------------------------------------------
