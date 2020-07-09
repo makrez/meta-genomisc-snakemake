@@ -8,5 +8,4 @@ data_testing/*
 data/
 slurm_logs/*
 slurm*
-Changis*
 resources/*
