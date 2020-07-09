@@ -1,5 +1,5 @@
 {
-  "DataFolder" : "data/",
+  "DataFolder" : "data_testing/",
   "DataFolder_testing": "data_testing/",
   "extension" : ".fastq.gz",
   "complete_extension": "_.\\.fastq\\.gz",
@@ -49,6 +49,11 @@
     "spades_mem_mb": 90000,
     "spades_mem_gb":90,
     "spades_threads": 32
+  },
+  "metabat2" : {
+    "metabat2_hours": 15,
+    "metabat2_mem_mb": 90000,
+    "metabat2_threads": 32
   },
   "short_sh_commands_threads": 16,
   "short_sh_commands_hours": 1,

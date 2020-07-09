@@ -1,6 +1,5 @@
 rule create_reference:
   input:
-    reference = "results/04_meta-assembly/spades/{sample}/contigs.fasta",
     link = "results/04_meta-assembly/{sample}_assembly_finished.txt",
 
   output:
@@ -20,7 +19,8 @@ rule create_reference:
   shell:
     " module add UHTS/Aligner/bowtie2/{params.bowtie2} ;"
     " srun bowtie2-build --threads {threads} "
-    "  -c {input.reference} results/02_filter_host/reference/ref ;"
+    "  -c results/04_meta-assembly/spades/{wildcards.sample}/contigs.fasta "
+    "  results/02_filter_host/reference/ref ;"
     " srun /bin/touch {output.log_ref}; "
 
 #-------------------------------------------------------------------------------
@@ -29,7 +29,7 @@ rule run_bowtie2:
   input:
     R1= "results/01_QC/{sample}/{sample}_FP.fastq.gz",
     R2= "results/01_QC/{sample}/{sample}_RP.fastq.gz",
-    ref = "results/04_meta-assembly/spades/{sample}/contigs.fasta",
+    ref =  "results/04_meta-assembly/spades/{sample}/ref.1.bt2",
 
   output:
     temp("results/05_map_to_contigs/{sample}/{sample}.sam")

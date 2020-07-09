@@ -58,13 +58,16 @@ if (
         config["pool_reads_before_assembly"] == False
     ):
     rule all:
-      input: expand("results/04_meta-assembly/{sample}_assembly_finished.txt", \
-                    sample=samples),
+      input: expand("results/06_metabat/{sample}_metabat_finished.txt", \
+                    sample = samples),
             "results/01_QC/link_rule.txt",
+
 
     include: "rules/QC.smk"
     #include: "rules/filter_host.smk"
     include: "rules/meta_assembly_individual.smk"
+    include: "rules/map_to_contigs_individual.smk"
+    include: "rules/metabat_individual.smk"
 
 if (
         config["remove_host"]["remove_host"] and
