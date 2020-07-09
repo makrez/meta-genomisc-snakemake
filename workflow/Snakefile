@@ -2,12 +2,14 @@ import os, string, re
 
 configfile: "config/config.json"
 
-### Config Variables
-### ----------------------------------------------------------------------------
-
+#-------------------------------------------------------------------------------
+# Config Variables
 DataFolder = config['DataFolder']
 fastx_extension = config["extension"]
+#-------------------------------------------------------------------------------
 
+
+#-------------------------------------------------------------------------------
 # Samples
 files = os.listdir(DataFolder)
 complete_extension = config['complete_extension']
@@ -17,8 +19,11 @@ mates = list(config['mates'].values())
 
 wildcard_constraints:
     sample = "|".join(samples)
+#-------------------------------------------------------------------------------
 
-## Check if Reference file exists
+
+#-------------------------------------------------------------------------------
+# Check if Reference file exists (if config["remove_host"]["remove_host"] == True)
 if (
         config["remove_host"]["remove_host"] and
         os.path.isfile(config["remove_host"]["host_reference"])
@@ -30,9 +35,9 @@ elif (
         ):
         print("No filtering with host.")
 
-
 else:
 	sys.exit("Host reference missing")
+#-------------------------------------------------------------------------------
 
 # Run the snakemake pipeline depending on inputs from config
 
@@ -42,7 +47,8 @@ if (
     ):
     rule all:
       input: expand("results/04_meta-assembly/{sample}_assembly_finished.txt", \
-                    sample=samples)
+                    sample=samples),
+             "results/01_QC/link_rule.txt",
     include: "rules/QC.smk"
     include: "rules/filter_host.smk"
     include: "rules/meta_assembly_individual.smk"
@@ -53,7 +59,9 @@ if (
     ):
     rule all:
       input: expand("results/04_meta-assembly/{sample}_assembly_finished.txt", \
-                    sample=samples)
+                    sample=samples),
+            "results/01_QC/link_rule.txt",
+
     include: "rules/QC.smk"
     #include: "rules/filter_host.smk"
     include: "rules/meta_assembly_individual.smk"
@@ -63,7 +71,8 @@ if (
         config["pool_reads_before_assembly"]
     ):
     rule all:
-      input: "results/04_meta-assembly/pooled_assembly_finished.txt"
+      input: "results/04_meta-assembly/pooled_assembly_finished.txt",
+             "results/01_QC/link_rule.txt",
     include: "rules/QC.smk"
     include: "rules/filter_host.smk"
     include: "rules/pool_reads.smk"
@@ -74,7 +83,8 @@ if (
         config["pool_reads_before_assembly"]
     ):
     rule all:
-      input: "results/04_meta-assembly/pooled_assembly_finished.txt"
+      input: "results/04_meta-assembly/pooled_assembly_finished.txt",
+             "results/01_QC/link_rule.txt",
     include: "rules/QC.smk"
     #include: "rules/filter_host.smk"
     include: "rules/pool_reads.smk"
