@@ -1,5 +1,5 @@
 {
-  "DataFolder" : "data_testing/",
+  "DataFolder" : "data/",
   "DataFolder_testing": "data_testing/",
   "extension" : ".fastq.gz",
   "complete_extension": "_.\\.fastq\\.gz",
@@ -11,11 +11,11 @@
     "remove_host": false,
     "host_reference": "resources/reference_list.txt"
   },
-  "pool_reads_before_assembly": true,
+  "pool_reads_before_assembly": false,
   "assembler": "spades",
   "trimmomatic" : {
     "trimmomatic_version" : "0.36",
-    "trimmomatic_threads" : 48,
+    "trimmomatic_threads" : 34,
     "trimmomatic_hours": 4,
     "trimmomatic_mem_mb": 32000
   },
@@ -45,10 +45,10 @@
     "samtools_threads": 48
   },
   "spades" : {
-    "spades_hours": 4,
-    "spades_mem_mb": 40000,
-    "spades_mem_gb":40,
-    "spades_threads": 24
+    "spades_hours": 15,
+    "spades_mem_mb": 90000,
+    "spades_mem_gb":90,
+    "spades_threads": 32
   },
   "short_sh_commands_threads": 16,
   "short_sh_commands_hours": 1,
