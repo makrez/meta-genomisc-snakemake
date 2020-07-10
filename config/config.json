@@ -50,6 +50,12 @@
     "spades_mem_gb":90,
     "spades_threads": 32
   },
+  "bwa" : {
+    "bwa_version": "0.7.17",
+    "bwa_hours" : 4,
+    "bwa_mem_mb": 32000,
+    "bwa_threads": 23
+      },
   "metabat2" : {
     "metabat2_hours": 15,
     "metabat2_mem_mb": 90000,

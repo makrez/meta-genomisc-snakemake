@@ -1,6 +1,6 @@
 rule contig_depth:
   input:
-    BAM = "results/05_map_to_contigs/{sample}/{sample}.bam",
+    BAM = "results/05_map_to_contigs/{sample}/{sample}.sorted.bam",
 
   output:
     DEPTH = "results/06_metabat/{sample}_depth.txt",
