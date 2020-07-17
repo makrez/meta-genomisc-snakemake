@@ -24,12 +24,13 @@ rule contig_depth:
 
 #-------------------------------------------------------------------------------
 
-rule metabat2:
+checkpoint metabat2:
   input:
     DEPTH = "results/06_metabat/{sample}_depth.txt",
 
   output:
-    LINK = "results/06_metabat/{sample}_metabat_finished.txt"
+    #LINK = "results/06_metabat/{sample}_metabat_finished.txt",
+    FILES = directory("results/06_metabat/{sample}")
 
   params:
     conda_profile = "/mnt/apps/centos7/Conda/miniconda3/etc/profile.d/conda.sh",
@@ -50,6 +51,6 @@ rule metabat2:
     "  -a {input.DEPTH} "
     "  -t {threads} "
     "  -o results/06_metabat/{wildcards.sample}/{wildcards.sample} ;"
-    " /bin/touch {output} ;"
+    " #/bin/touch {output} ;"
 
 #-------------------------------------------------------------------------------

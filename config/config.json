@@ -1,5 +1,5 @@
 {
-  "DataFolder" : "data_testing/",
+  "DataFolder" : "/data/datasets/E_coli_testdata/raw/p100/",
   "DataFolder_testing": "data_testing/",
   "extension" : ".fastq.gz",
   "complete_extension": "_.\\.fastq\\.gz",
@@ -15,15 +15,15 @@
   "assembler": "spades",
   "trimmomatic" : {
     "trimmomatic_version" : "0.36",
-    "trimmomatic_threads" : 34,
-    "trimmomatic_hours": 4,
+    "trimmomatic_threads" : 12,
+    "trimmomatic_hours": 2,
     "trimmomatic_mem_mb": 32000
   },
   "fastqc" : {
     "fastqc_version" : "0.11.7",
-    "fastqc_hours": 4,
+    "fastqc_hours": 2,
     "fastqc_mem_mb": 32000,
-    "fastqc_threads": 48
+    "fastqc_threads": 12
   },
   "bowtie2" : {
     "bowtie2_version": "2.3.4.1",
@@ -33,36 +33,47 @@
       "bowtie2_threads": 8
       },
     "bowtie2_map" : {
-      "bowtie2_hours" : 10,
+      "bowtie2_hours" : 1,
       "bowtie2_mem_mb": 32000,
-      "bowtie2_threads": 48
+      "bowtie2_threads": 12
       }
   },
   "samtools" : {
     "samtools_version": "1.10",
-    "samtools_hours": 4,
+    "samtools_hours": 1,
     "samtools_mem_mb": 64000,
-    "samtools_threads": 48
+    "samtools_threads": 12
   },
   "spades" : {
-    "spades_hours": 15,
-    "spades_mem_mb": 90000,
-    "spades_mem_gb":90,
-    "spades_threads": 32
+    "spades_hours": 1,
+    "spades_mem_mb": 20000,
+    "spades_mem_gb":20,
+    "spades_threads": 12
   },
   "bwa" : {
     "bwa_version": "0.7.17",
-    "bwa_hours" : 4,
+    "bwa_hours" : 1,
     "bwa_mem_mb": 32000,
-    "bwa_threads": 23
+    "bwa_threads": 12
       },
   "metabat2" : {
-    "metabat2_hours": 15,
+    "metabat2_hours": 1,
     "metabat2_mem_mb": 90000,
-    "metabat2_threads": 32
+    "metabat2_threads": 12
+  },
+  "prokka" : {
+    "prokka_threads": 12,
+    "prokka_hours": 1,
+    "prokka_mem_mb": 12000,
+  },
+  "gtdb" : {
+    "gtdb_threads": 12,
+    "gtdb_hours": 2,
+    "gtdb_mem_mb": 16000,
   },
   "short_sh_commands_threads": 16,
   "short_sh_commands_hours": 1,
+  "short_commands_mb": 12000,
   "testing" : {
     "testing_threads": 8,
     "testing_hours": 1,

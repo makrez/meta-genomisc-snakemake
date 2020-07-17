@@ -1,15 +1,15 @@
-import os, string, re
+import os, string, re, glob, shutil
 
 configfile: "config/config.json"
 
-#-------------------------------------------------------------------------------
+#===============================================================================
 # Config Variables
 DataFolder = config['DataFolder']
 fastx_extension = config["extension"]
 #-------------------------------------------------------------------------------
 
 
-#-------------------------------------------------------------------------------
+#===============================================================================
 # Samples
 files = os.listdir(DataFolder)
 complete_extension = config['complete_extension']
@@ -22,8 +22,9 @@ wildcard_constraints:
 #-------------------------------------------------------------------------------
 
 
-#-------------------------------------------------------------------------------
-# Check if Reference file exists (if config["remove_host"]["remove_host"] == True)
+#===============================================================================
+# Check if Reference file exists
+# Conditional on config["remove_host"]["remove_host"] == True
 if (
         config["remove_host"]["remove_host"] and
         os.path.isfile(config["remove_host"]["host_reference"])
@@ -39,11 +40,24 @@ else:
 	sys.exit("Host reference missing")
 #-------------------------------------------------------------------------------
 
-# Run the snakemake pipeline depending on inputs from config
 
+#===============================================================================
+# Workflows
+#-------------------------------------------------------------------------------
+# The snakemake pipeline runs a workflow depending on inputs from config.
+# The following config parameters determine the workflow:
+#  - config["remove_host"]["remove_host"]: true/false; Reads are filtered
+#                                          with a host reference genome.
+#  - config["pool_reads_before_assembly"]: true/false; Reads are either pooled
+#                                          before assembly or samples are
+#                                          assembled individually.
+
+# Removing Host DNA and meta-assembly per sample
+#-----------------
 if (
         config["remove_host"]["remove_host"] and # removing host DNA
-        config["pool_reads_before_assembly"] == False # samples are assembled individually.
+        config["pool_reads_before_assembly"] == False # samples are assembled
+                                                      # individually
     ):
     rule all:
       input: expand("results/04_meta-assembly/{sample}_assembly_finished.txt", \
@@ -53,25 +67,30 @@ if (
     include: "rules/filter_host.smk"
     include: "rules/meta_assembly_individual.smk"
 
+# Not removing host DNA and meta-assembly per sample
+#-----------------
 if (
-        config["remove_host"]["remove_host"] == False and
-        config["pool_reads_before_assembly"] == False
+        config["remove_host"]["remove_host"] == False and # No host filtering
+        config["pool_reads_before_assembly"] == False # samples are assembled
+                                                      # individually
     ):
     rule all:
-      input: expand("results/06_metabat/{sample}_metabat_finished.txt", \
-                    sample = samples),
-            "results/01_QC/link_rule.txt",
-
+      input:
+        expand("results/07_prokka/summary/{sample}_summary.csv", sample = samples),
+        expand("results/07_prokka/genomes/{sample}/gtdb_link.txt", sample = samples)
 
     include: "rules/QC.smk"
     #include: "rules/filter_host.smk"
     include: "rules/meta_assembly_individual.smk"
     include: "rules/map_to_contigs_individual.smk"
     include: "rules/metabat_individual.smk"
+    include: "rules/prokka.smk"
 
+# Removing host DNA and meta-assembly on pooled reads from all samples
+#-----------------
 if (
-        config["remove_host"]["remove_host"] and
-        config["pool_reads_before_assembly"]
+        config["remove_host"]["remove_host"] and # Filter host
+        config["pool_reads_before_assembly"] # pool reads before meta_assembly
     ):
     rule all:
       input: "results/04_meta-assembly/pooled_assembly_finished.txt",
@@ -81,6 +100,8 @@ if (
     include: "rules/pool_reads.smk"
     include: "rules/meta_assembly.smk"
 
+# Not removing host DNA and meta-assembly on pooled reads from all samples
+#-----------------
 if (
         config["remove_host"]["remove_host"] == False and
         config["pool_reads_before_assembly"]
@@ -92,6 +113,3 @@ if (
     #include: "rules/filter_host.smk"
     include: "rules/pool_reads.smk"
     include: "rules/meta_assembly.smk"
-
-else:
-    print("it is false")
