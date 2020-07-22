@@ -1,10 +1,10 @@
 rule create_reference_contigs:
   input:
-    link = "results/04_meta-assembly/{sample}_assembly_finished.txt",
+    link = "results/04_meta-assembly/pooled_assembly_finished.txt",
 
   output:
-    indexed_reference = "results/05_map_to_contigs/{sample}/contigs.fasta.ann",
-    log_ref = "results/05_map_to_contigs/{sample}/log_ref.txt"
+    indexed_reference = "results/05_map_to_contigs/contigs.fasta.ann",
+    log_ref = "results/05_map_to_contigs/log_ref.txt"
 
   params:
     bwa=config['bwa']['bwa_version']
@@ -22,10 +22,10 @@ rule create_reference_contigs:
         " module add UHTS/Aligner/bwa/{params.bwa} ;"
         " awk '/^>/ {{printf(\"\\n%s\\n\",$0);next; }} {{ printf(\"%s\",$0);}}  "
         "  END {{printf(\"\\n\");}}' "
-        "  < results/04_meta-assembly/spades/{wildcards.sample}/contigs.fasta | "
+        "  < results/04_meta-assembly/spades/contigs.fasta | "
         "  sed '1{{/^$/d}}' "
-        "  > results/05_map_to_contigs/{wildcards.sample}/contigs.fasta  ;"
-        " srun bwa index results/05_map_to_contigs/{wildcards.sample}/contigs.fasta ;"
+        "  > results/05_map_to_contigs/contigs.fasta  ;"
+        " srun bwa index results/05_map_to_contigs/contigs.fasta ;"
         " srun /bin/touch {output.log_ref}; "
                )
     if (config["assembler"] == "megahit"):
@@ -33,20 +33,24 @@ rule create_reference_contigs:
         " module add UHTS/Aligner/bwa/{params.bwa} ;"
         " awk '/^>/ {{printf(\"\\n%s\\n\",$0);next; }} {{ printf(\"%s\",$0);}}  "
         "  END {{printf(\"\\n\");}}' "
-        "  < results/04_meta-assembly/megahit/{wildcards.sample}/final.contigs.fa | "
+        "  < results/04_meta-assembly/megahit/final.contigs.fa | "
         "  sed '1{{/^$/d}}' "
-        "  > results/05_map_to_contigs/{wildcards.sample}/contigs.fasta  ;"
-        " srun bwa index results/05_map_to_contigs/{wildcards.sample}/contigs.fasta ;"
+        "  > results/05_map_to_contigs/contigs.fasta  ;"
+        " srun bwa index results/05_map_to_contigs/contigs.fasta ;"
         " srun /bin/touch {output.log_ref}; "
         )
 
 #-------------------------------------------------------------------------------
 
-rule bwa:
+rule bwa_contigs:
   input:
-    R1= "results/01_QC/{sample}/{sample}_FP.fastq.gz",
-    R2= "results/01_QC/{sample}/{sample}_RP.fastq.gz",
-    ref = "results/05_map_to_contigs/{sample}/contigs.fasta.ann",
+    R1= "results/01_QC/{sample}/{sample}_FP.fastq.gz" if \
+        config["remove_host"]["remove_host"] == False \
+        else "results/02_filter_host/{sample}/{sample}_FP.fastq.gz",
+    R2= "results/01_QC/{sample}/{sample}_RP.fastq.gz" if \
+        config["remove_host"]["remove_host"] == False \
+        else "results/02_filter_host/{sample}/{sample}_RP.fastq.gz",
+    ref = "results/05_map_to_contigs/contigs.fasta.ann",
 
   output:
     "results/05_map_to_contigs/{sample}/{sample}.sam"
@@ -65,7 +69,7 @@ rule bwa:
     " module add UHTS/Aligner/bwa/{params.bwa} ;"
     " srun bwa mem "
     "  -t {threads} "
-    "  results/05_map_to_contigs/{wildcards.sample}/contigs.fasta "
+    "  results/05_map_to_contigs/contigs.fasta "
     "  {input.R1} "
     "  {input.R2} "
     "  > {output} ;"

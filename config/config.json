@@ -11,8 +11,8 @@
     "remove_host": false,
     "host_reference": "resources/reference_list.txt"
   },
-  "pool_reads_before_assembly": false,
-  "assembler": "spades",
+  "pool_reads_before_assembly": true,
+  "assembler": "megahit",
   "trimmomatic" : {
     "trimmomatic_version" : "0.36",
     "trimmomatic_threads" : 12,
@@ -50,6 +50,12 @@
     "spades_mem_gb":20,
     "spades_threads": 12
   },
+  "megahit" : {
+    "megahit_hours": 1,
+    "megahit_mem_mb": 20000,
+    "megahit_mem_gb":20,
+    "megahit_threads": 60
+  },
   "bwa" : {
     "bwa_version": "0.7.17",
     "bwa_hours" : 1,
@@ -67,9 +73,14 @@
     "prokka_mem_mb": 12000,
   },
   "gtdb" : {
-    "gtdb_threads": 12,
+    "gtdb_threads": 16,
     "gtdb_hours": 2,
-    "gtdb_mem_mb": 16000,
+    "gtdb_mem_mb": 200000,
+  },
+  "checkM" : {
+    "checkM_threads": 12,
+    "checkM_hours": 4,
+    "checkM_mem_mb": 64000,
   },
   "short_sh_commands_threads": 16,
   "short_sh_commands_hours": 1,

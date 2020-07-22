@@ -34,11 +34,12 @@ rule meta_assembly:
        )
     elif (config["assembler"] == "megahit"):
         shell(
-          "module add UHTS/Assembler/megahit/1.1.4 ;"
-          "srun megahit "
-          " -1 {input.FORWARD} "
-          " -2 {input.REVERSE} "
-          " -o results/04_meta-assembly/megahit ;"
+          " mkdir -p results/04_meta-assembly/;"
+          " module add UHTS/Assembler/megahit/1.1.4 ;"
+          " srun megahit "
+          "  -1 {input.FORWARD} "
+          "  -2 {input.REVERSE} "
+          "  -o results/04_meta-assembly/megahit ;"
           " /bin/touch {output} ; "
          )
     else:

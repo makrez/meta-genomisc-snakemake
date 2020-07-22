@@ -42,31 +42,15 @@ checkpoint metabat2:
     mem_mb = int(config['metabat2']['metabat2_mem_mb']),
     hours = int(config['metabat2']['metabat2_hours'])
 
-  run:
-    if (config["assembler"] == "spades"):
-      shell(
-        " set +u ;"
-        " source {params.conda_profile} ;"
-        " conda activate metabat2 ;"
-        " srun metabat2 "
-        "  -i results/04_meta-assembly/spades/{wildcards.sample}/contigs.fasta "
-        "  -a {input.DEPTH} "
-        "  -t {threads} "
-        "  -o results/06_metabat/{wildcards.sample}/{wildcards.sample} ;"
-        " #/bin/touch {output} ;"
-        )
-
-    if (config["assembler"] == "megahit"):
-      shell(
-        " set +u ;"
-        " source {params.conda_profile} ;"
-        " conda activate metabat2 ;"
-        " srun metabat2 "
-        "  -i results/04_meta-assembly/megahit/{wildcards.sample}/final.contigs.fa "
-        "  -a {input.DEPTH} "
-        "  -t {threads} "
-        "  -o results/06_metabat/{wildcards.sample}/{wildcards.sample} ;"
-        " #/bin/touch {output} ;"
-        )
+  shell:
+    " set +u ;"
+    " source {params.conda_profile} ;"
+    " conda activate metabat2 ;"
+    " srun metabat2 "
+    "  -i results/04_meta-assembly/spades/{wildcards.sample}/contigs.fasta "
+    "  -a {input.DEPTH} "
+    "  -t {threads} "
+    "  -o results/06_metabat/{wildcards.sample}/{wildcards.sample} ;"
+    " #/bin/touch {output} ;"
 
 #-------------------------------------------------------------------------------

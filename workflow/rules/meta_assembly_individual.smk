@@ -40,12 +40,13 @@ rule meta_assembly:
     elif (config["assembler"] == "megahit"):
         # Megahit assembler will be run
         shell(
-          "module add UHTS/Assembler/megahit/1.1.4 ;"
-          "srun megahit "
-          " -1 {input.FORWARD} "
-          " -2 {input.REVERSE} "
-          " -o results/04_meta-assembly/megahit/{wildcards.sample} ;"
-          " /bin/touch {output} ; "
+          " mkdir -p results/04_meta-assembly/megahit/ ;"
+          " module add UHTS/Assembler/megahit/1.1.4 ;"
+          " srun megahit "
+          "  -1 {input.FORWARD} "
+          "  -2 {input.REVERSE} "
+          "  -o results/04_meta-assembly/megahit/{wildcards.sample} ;"
+          "  /bin/touch {output} ; "
          )
     else:
         print("Assembler not recognized. \

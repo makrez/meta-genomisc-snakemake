@@ -60,12 +60,18 @@ if (
                                                       # individually
     ):
     rule all:
-      input: expand("results/04_meta-assembly/{sample}_assembly_finished.txt", \
-                    sample=samples),
-             "results/01_QC/link_rule.txt",
+      input:
+        expand("results/07_prokka/summary/{sample}_summary.csv", sample = samples),
+        expand("results/07_prokka/genomes/{sample}/gtdb_link.txt", sample = samples),
+        expand("results/08_checkM/{sample}.link", sample = samples)
+
     include: "rules/QC.smk"
     include: "rules/filter_host.smk"
     include: "rules/meta_assembly_individual.smk"
+    include: "rules/map_to_contigs_individual.smk"
+    include: "rules/metabat_individual.smk"
+    include: "rules/prokka_individual.smk"
+    include: "rules/checkM_individual.smk"
 
 # Not removing host DNA and meta-assembly per sample
 #-----------------
@@ -77,14 +83,15 @@ if (
     rule all:
       input:
         expand("results/07_prokka/summary/{sample}_summary.csv", sample = samples),
-        expand("results/07_prokka/genomes/{sample}/gtdb_link.txt", sample = samples)
+        expand("results/07_prokka/genomes/{sample}/gtdb_link.txt", sample = samples),
+        expand("results/08_checkM/{sample}.link", sample = samples)
 
     include: "rules/QC.smk"
-    #include: "rules/filter_host.smk"
     include: "rules/meta_assembly_individual.smk"
     include: "rules/map_to_contigs_individual.smk"
     include: "rules/metabat_individual.smk"
-    include: "rules/prokka.smk"
+    include: "rules/prokka_individual.smk"
+    include: "rules/checkM_individual.smk"
 
 # Removing host DNA and meta-assembly on pooled reads from all samples
 #-----------------
@@ -93,12 +100,19 @@ if (
         config["pool_reads_before_assembly"] # pool reads before meta_assembly
     ):
     rule all:
-      input: "results/04_meta-assembly/pooled_assembly_finished.txt",
-             "results/01_QC/link_rule.txt",
+      input:
+        expand("results/07_prokka/summary/{sample}_summary.csv", sample = samples),
+        expand("results/07_prokka/genomes/{sample}/gtdb_link.txt", sample = samples),
+        expand("results/08_checkM/{sample}.link", sample = samples)
     include: "rules/QC.smk"
     include: "rules/filter_host.smk"
     include: "rules/pool_reads.smk"
     include: "rules/meta_assembly.smk"
+    include: "rules/map_to_contigs.smk"
+    include: "rules/metabat.smk"
+    include: "rules/prokka_individual.smk"
+    include: "rules/checkM_individual.smk"
+
 
 # Not removing host DNA and meta-assembly on pooled reads from all samples
 #-----------------
@@ -107,9 +121,15 @@ if (
         config["pool_reads_before_assembly"]
     ):
     rule all:
-      input: "results/04_meta-assembly/pooled_assembly_finished.txt",
-             "results/01_QC/link_rule.txt",
+      input:
+        expand("results/07_prokka/summary/{sample}_summary.csv", sample = samples),
+        expand("results/07_prokka/genomes/{sample}/gtdb_link.txt", sample = samples),
+        expand("results/08_checkM/{sample}.link", sample = samples)
     include: "rules/QC.smk"
     #include: "rules/filter_host.smk"
     include: "rules/pool_reads.smk"
     include: "rules/meta_assembly.smk"
+    include: "rules/map_to_contigs.smk"
+    include: "rules/metabat.smk"
+    include: "rules/prokka_individual.smk"
+    include: "rules/checkM_individual.smk"
