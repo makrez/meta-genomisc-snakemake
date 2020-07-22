@@ -61,8 +61,8 @@ if (
     ):
     rule all:
       input:
-        expand("results/07_prokka/summary/{sample}_summary.csv", sample = samples),
-        expand("results/07_prokka/genomes/{sample}/gtdb_link.txt", sample = samples),
+        #expand("results/07_prokka/summary/{sample}_summary.csv", sample = samples),
+        #expand("results/07_prokka/genomes/{sample}/gtdb_link.txt", sample = samples),
         expand("results/08_checkM/{sample}.link", sample = samples)
 
     include: "rules/QC.smk"
@@ -82,8 +82,8 @@ if (
     ):
     rule all:
       input:
-        expand("results/07_prokka/summary/{sample}_summary.csv", sample = samples),
-        expand("results/07_prokka/genomes/{sample}/gtdb_link.txt", sample = samples),
+        #expand("results/07_prokka/summary/{sample}_summary.csv", sample = samples),
+        #expand("results/07_prokka/genomes/{sample}/gtdb_link.txt", sample = samples),
         expand("results/08_checkM/{sample}.link", sample = samples)
 
     include: "rules/QC.smk"
@@ -101,8 +101,8 @@ if (
     ):
     rule all:
       input:
-        expand("results/07_prokka/summary/{sample}_summary.csv", sample = samples),
-        expand("results/07_prokka/genomes/{sample}/gtdb_link.txt", sample = samples),
+        #expand("results/07_prokka/summary/{sample}_summary.csv", sample = samples),
+        #expand("results/07_prokka/genomes/{sample}/gtdb_link.txt", sample = samples),
         expand("results/08_checkM/{sample}.link", sample = samples)
     include: "rules/QC.smk"
     include: "rules/filter_host.smk"
@@ -122,8 +122,8 @@ if (
     ):
     rule all:
       input:
-        expand("results/07_prokka/summary/{sample}_summary.csv", sample = samples),
-        expand("results/07_prokka/genomes/{sample}/gtdb_link.txt", sample = samples),
+        #expand("results/07_prokka/summary/{sample}_summary.csv", sample = samples),
+        #expand("results/07_prokka/genomes/{sample}/gtdb_link.txt", sample = samples),
         expand("results/08_checkM/{sample}.link", sample = samples)
     include: "rules/QC.smk"
     #include: "rules/filter_host.smk"

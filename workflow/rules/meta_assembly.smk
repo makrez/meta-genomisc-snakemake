@@ -10,12 +10,12 @@ rule meta_assembly:
     conda_profile = "/mnt/apps/centos7/Conda/miniconda3/etc/profile.d/conda.sh",
 
   threads:
-    int(config['spades']['spades_threads'])
+    int(config['meta_assembly']['meta_assembly_threads'])
 
   resources:
-    mem_mb = int(config['spades']['spades_mem_mb']),
-    hours = int(config['spades']['spades_hours']),
-    mem_gb = int(config['spades']['spades_mem_gb'])
+    mem_mb = int(config['meta_assembly']['meta_assembly_mem_mb']),
+    hours = int(config['meta_assembly']['meta_assembly_hours']),
+    mem_gb = int(config['meta_assembly']['meta_assembly_mem_gb'])
 
   run:
     if (config["assembler"] == "spades"):

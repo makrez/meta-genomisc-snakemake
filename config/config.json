@@ -8,10 +8,10 @@
     "mate2" : "_2"
     },
   "remove_host" : {
-    "remove_host": false,
+    "remove_host": true,
     "host_reference": "resources/reference_list.txt"
   },
-  "pool_reads_before_assembly": true,
+  "pool_reads_before_assembly": false,
   "assembler": "megahit",
   "trimmomatic" : {
     "trimmomatic_version" : "0.36",
@@ -21,66 +21,60 @@
   },
   "fastqc" : {
     "fastqc_version" : "0.11.7",
-    "fastqc_hours": 2,
+    "fastqc_hours": 4,
     "fastqc_mem_mb": 32000,
-    "fastqc_threads": 12
+    "fastqc_threads": 24
   },
   "bowtie2" : {
     "bowtie2_version": "2.3.4.1",
     "bowtie2_ref" : {
       "bowtie2_hours" : 1,
-      "bowtie2_mem_mb": 8000,
+      "bowtie2_mem_mb": 1000,
       "bowtie2_threads": 8
       },
     "bowtie2_map" : {
-      "bowtie2_hours" : 1,
-      "bowtie2_mem_mb": 32000,
-      "bowtie2_threads": 12
+      "bowtie2_hours" : 8,
+      "bowtie2_mem_mb": 100000,
+      "bowtie2_threads": 38
       }
   },
   "samtools" : {
     "samtools_version": "1.10",
-    "samtools_hours": 1,
-    "samtools_mem_mb": 64000,
-    "samtools_threads": 12
+    "samtools_hours": 8,
+    "samtools_mem_mb": 100000,
+    "samtools_threads": 38
   },
-  "spades" : {
-    "spades_hours": 1,
-    "spades_mem_mb": 20000,
-    "spades_mem_gb":20,
-    "spades_threads": 12
-  },
-  "megahit" : {
-    "megahit_hours": 1,
-    "megahit_mem_mb": 20000,
-    "megahit_mem_gb":20,
-    "megahit_threads": 60
+  "meta_assembly" : {
+    "meta_assembly_hours": 2640,
+    "meta_assembly_mem_mb": 1700000,
+    "meta_assembly_mem_gb":1700,
+    "meta_assembly_threads": 78
   },
   "bwa" : {
     "bwa_version": "0.7.17",
-    "bwa_hours" : 1,
-    "bwa_mem_mb": 32000,
-    "bwa_threads": 12
+    "bwa_hours" : 8,
+    "bwa_mem_mb": 100000,
+    "bwa_threads": 34
       },
   "metabat2" : {
-    "metabat2_hours": 1,
-    "metabat2_mem_mb": 90000,
-    "metabat2_threads": 12
+    "metabat2_hours": 10,
+    "metabat2_mem_mb": 100000,
+    "metabat2_threads": 34
   },
   "prokka" : {
-    "prokka_threads": 12,
-    "prokka_hours": 1,
-    "prokka_mem_mb": 12000,
+    "prokka_threads": 34,
+    "prokka_hours": 10,
+    "prokka_mem_mb": 120000,
   },
   "gtdb" : {
-    "gtdb_threads": 16,
-    "gtdb_hours": 2,
+    "gtdb_threads": 34,
+    "gtdb_hours": 10,
     "gtdb_mem_mb": 200000,
   },
   "checkM" : {
-    "checkM_threads": 12,
-    "checkM_hours": 4,
-    "checkM_mem_mb": 64000,
+    "checkM_threads": 34,
+    "checkM_hours": 10,
+    "checkM_mem_mb": 100000,
   },
   "short_sh_commands_threads": 16,
   "short_sh_commands_hours": 1,
