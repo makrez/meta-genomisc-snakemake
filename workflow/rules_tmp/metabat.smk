@@ -29,7 +29,7 @@ checkpoint metabat2:
     DEPTH = "results/06_metabat/{sample}_depth.txt",
 
   output:
-    LINK = "results/06_metabat/{sample}_metabat_finished.txt",
+    #LINK = "results/06_metabat/{sample}_metabat_finished.txt",
     FILES = directory("results/06_metabat/{sample}")
 
   params:
@@ -49,11 +49,11 @@ checkpoint metabat2:
         " source {params.conda_profile} ;"
         " conda activate metabat2 ;"
         " srun metabat2 "
-        "  -i results/04_meta-assembly/spades/{wildcards.sample}/contigs.fasta "
+        "  -i results/04_meta-assembly/spades/contigs.fasta "
         "  -a {input.DEPTH} "
         "  -t {threads} "
         "  -o results/06_metabat/{wildcards.sample}/{wildcards.sample} ;"
-        " /bin/touch {output.LINK} ;"
+        " #/bin/touch {output} ;"
         )
 
     if (config["assembler"] == "megahit"):
@@ -62,11 +62,11 @@ checkpoint metabat2:
         " source {params.conda_profile} ;"
         " conda activate metabat2 ;"
         " srun metabat2 "
-        "  -i results/04_meta-assembly/megahit/{wildcards.sample}/final.contigs.fa "
+        "  -i results/04_meta-assembly/megahit/final.contigs.fa "
         "  -a {input.DEPTH} "
         "  -t {threads} "
         "  -o results/06_metabat/{wildcards.sample}/{wildcards.sample} ;"
-        " /bin/touch {output.LINK} ;"
+        " #/bin/touch {output} ;"
         )
 
 #-------------------------------------------------------------------------------

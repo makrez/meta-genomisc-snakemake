@@ -70,11 +70,11 @@ rule create_link_file:
     trimmomatic=config['trimmomatic']['trimmomatic_version']
 
   threads:
-    int(config['short_commands_threads'])
+    int(config['short_sh_commands_threads'])
 
   resources:
     mem_mb = 16000,
-    hours = int(config['short_commands_hours'])
+    hours = int(config['short_sh_commands_hours'])
 
   output:
     "results/01_QC/link_rule.txt"

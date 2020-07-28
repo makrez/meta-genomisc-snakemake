@@ -5,11 +5,11 @@ rule pool_reads:
     REVERSE=expand("analysis/02_filter_host/{{sample}}/{{sample}}_{lane}_RP.fastq.gz",
                     lane = lanes)
   threads:
-    int(config['short_commands_threads'])
+    int(config['short_sh_commands_threads'])
 
   resources:
     mem_mb = int(config['spades']['spades_mem_mb']),
-    hours = int(config['short_commands_hours'])
+    hours = int(config['short_sh_commands_hours'])
 
   output:
     FORWARD_POOLED="analysis/03_pool_reads/{sample}/pooled_reads_{sample}_FP.fastq.gz",

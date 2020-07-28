@@ -76,8 +76,8 @@
     "checkM_hours": 10,
     "checkM_mem_mb": 100000,
   },
-  "short_sh_commands_threads": 16,
-  "short_sh_commands_hours": 1,
+  "short_commands_threads": 16,
+  "short_commands_hours": 1,
   "short_commands_mb": 12000,
   "testing" : {
     "testing_threads": 8,

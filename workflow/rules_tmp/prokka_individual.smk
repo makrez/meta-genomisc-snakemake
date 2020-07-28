@@ -44,11 +44,11 @@ rule convert_prokka_summary:
     CSV = "results/07_prokka/{sample}/{id}/{sample}_{id}.csv"
 
   threads:
-    int(config['short_commands_threads'])
+    int(config['short_sh_commands_threads'])
 
   resources:
     mem_mb = int(config['short_commands_mb']),
-    hours = int(config['short_commands_hours'])
+    hours = int(config['short_sh_commands_hours'])
 
   shell:
     # remove trailing white spaces
@@ -68,11 +68,11 @@ rule move_genomes:
     DEST = "results/07_prokka/genomes/{sample}/{sample}_{id}.fna"
 
   threads:
-    int(config['short_commands_threads'])
+    int(config['short_sh_commands_threads'])
 
   resources:
     mem_mb = int(config['short_commands_mb']),
-    hours = int(config['short_commands_hours'])
+    hours = int(config['short_sh_commands_hours'])
 
   run:
     shell(" cp {input.GENOME} {output.DEST}")
@@ -99,11 +99,11 @@ rule concatenate_prokka:
     "results/07_prokka/summary/{sample}_summary.csv"
 
   threads:
-    int(config['short_commands_threads'])
+    int(config['short_sh_commands_threads'])
 
   resources:
     mem_mb = int(config['short_commands_mb']),
-    hours = int(config['short_commands_hours'])
+    hours = int(config['short_sh_commands_hours'])
 
   shell:
     " srun /bin/cat {input} > {output} "

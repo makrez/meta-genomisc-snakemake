@@ -63,7 +63,7 @@ if (
       input:
         #expand("results/07_prokka/summary/{sample}_summary.csv", sample = samples),
         #expand("results/07_prokka/genomes/{sample}/gtdb_link.txt", sample = samples),
-        expand("results/08_checkM/{sample}.link", sample = samples)
+        "results/08_checkM/checkm_summary.txt"
 
     include: "rules/QC.smk"
     include: "rules/filter_host.smk"
@@ -84,8 +84,8 @@ if (
       input:
         #expand("results/07_prokka/summary/{sample}_summary.csv", sample = samples),
         #expand("results/07_prokka/genomes/{sample}/gtdb_link.txt", sample = samples),
-        expand("results/08_checkM/{sample}.link", sample = samples)
-
+        #expand("results/08_checkM/{sample}.link", sample = samples)
+        "results/08_checkM/checkm_summary.txt"
     include: "rules/QC.smk"
     include: "rules/meta_assembly_individual.smk"
     include: "rules/map_to_contigs_individual.smk"

@@ -15,11 +15,11 @@ rule pool_reads:
     REVERSE_POOLED="results/03_pool_reads/pooled_reads_RP.fastq.gz"
 
   threads:
-    int(config['short_commands_threads'])
+    int(config['short_sh_commands_threads'])
 
   resources:
     mem_mb = int(config['spades']['spades_mem_mb']),
-    hours = int(config['short_commands_hours'])
+    hours = int(config['short_sh_commands_hours'])
 
   shell:
     "srun /bin/cat {input.FORWARD} >> {output.FORWARD_POOLED} ;"
